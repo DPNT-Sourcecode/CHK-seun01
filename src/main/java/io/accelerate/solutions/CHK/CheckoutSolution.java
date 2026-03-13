@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 record SpecialOffer(
@@ -62,13 +64,19 @@ public class CheckoutSolution {
         }
 
         List<String> skusList = Arrays.stream(skus.split(",")).toList();
-        Integer basketPrice = skusList.stream()
-                .map(sku -> priceTable.get(sku))
-                .reduce(0, )
+        Map<String, Integer> skusInBasket = skusList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
 
+
+        s
+        for (var sku : skusInBasket) {
+            Item item = priceTable.get(sku);
+            basketPrice += item.calculateFinalPrice()
+        }
 
 
         throw new SolutionNotImplementedException();
     }
 }
+
 
