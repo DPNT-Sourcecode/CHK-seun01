@@ -49,7 +49,7 @@ class Item {
 
 public class CheckoutSolution {
 
-    private Map<String, Item> priceTable = new HashMap<>();
+    private final Map<String, Item> priceTable = new HashMap<>();
 
     public CheckoutSolution() {
         priceTable.put("A", new Item(50, new SpecialOffer(3, 130)));
@@ -63,19 +63,25 @@ public class CheckoutSolution {
             return -1;
         }
 
+        Integer basketPrice = 0;
+
         List<String> skusList = Arrays.stream(skus.split(",")).toList();
-        Map<String, Integer> skusInBasket = skusList.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
 
-
-        s
-        for (var sku : skusInBasket) {
-            Item item = priceTable.get(sku);
-            basketPrice += item.calculateFinalPrice()
+        for (String sku : skusList) {
+            if(sku.isBlank() || sku.length() != 1 || Character.isLetter(sku.c))
         }
 
+        Map<String, Long> skusInBasket = skusList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        throw new SolutionNotImplementedException();
+        for (String sku : skusInBasket.keySet()) {
+            int quantity = skusInBasket.get(sku).intValue();
+
+            Item item = priceTable.get(sku);
+            basketPrice += item.calculateFinalPrice(quantity);
+        }
+
+        return basketPrice;
     }
 }
 
