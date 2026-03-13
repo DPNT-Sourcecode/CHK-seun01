@@ -52,4 +52,13 @@ class CheckoutSolutionTest {
 
         assertEquals(expectedPrice, basketPrice);
     }
+
+    @Test
+    void testIgnoresUnknownItems() {
+        Integer expectedPrice = 130 + 45 + 50 + 30;
+
+        Integer basketPrice = solution.checkout("A,A,A,A,B,B,B,a");
+
+        assertEquals(expectedPrice, basketPrice);
+    }
 }

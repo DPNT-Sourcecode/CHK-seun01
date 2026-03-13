@@ -84,7 +84,10 @@ public class CheckoutSolution {
             int quantity = skusInBasket.get(sku).intValue();
 
             Item item = priceTable.get(sku);
-            basketPrice += item.calculateFinalPrice(quantity);
+
+            if (item != null) {
+                basketPrice += item.calculateFinalPrice(quantity);
+            }
         }
 
         return basketPrice;
