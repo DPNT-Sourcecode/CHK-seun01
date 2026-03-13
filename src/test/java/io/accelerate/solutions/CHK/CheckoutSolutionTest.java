@@ -46,12 +46,22 @@ class CheckoutSolutionTest {
     }
 
     @Test
-    void testAboveOfferPrices() {
-        Integer expectedPrice = 130 + 45 + 50 + 30;
+    void testAboveOfferPrices1() {
+        Integer expectedPrice = 260;
 
-        Integer basketPrice = solution.checkout("AAAABBB");
+        Integer basketPrice = solution.checkout("AAAAAA");
+
+        assertEquals(expectedPrice, basketPrice);
+    }
+
+    @Test
+    void testAboveOfferPrices2() {
+        Integer expectedPrice = 90;
+
+        Integer basketPrice = solution.checkout("BBBB");
 
         assertEquals(expectedPrice, basketPrice);
     }
 
 }
+
