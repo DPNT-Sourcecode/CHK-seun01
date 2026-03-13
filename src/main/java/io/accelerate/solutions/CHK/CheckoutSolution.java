@@ -63,13 +63,19 @@ public class CheckoutSolution {
             return -1;
         }
 
-        Integer basketPrice = 0;
-
         List<String> skusList = Arrays.stream(skus.split(",")).toList();
 
-        for (String sku : skusList) {
-            if(sku.isBlank() || sku.length() != 1 || Character.isLetter(sku.c))
+        if (skusList.isEmpty()) {
+            return -1;
         }
+
+        for (String sku : skusList) {
+            if (sku.isBlank() || sku.length() != 1 || !Character.isLetter(sku.charAt(0))) {
+                return -1;
+            }
+        }
+
+        Integer basketPrice = 0;
 
         Map<String, Long> skusInBasket = skusList.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
