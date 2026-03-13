@@ -60,25 +60,27 @@ public class CheckoutSolution {
 
     public Integer checkout(String skus) {
         if (skus == null || skus.isBlank()) {
-            return -1;
+            return 0;
         }
 
-        List<String> skusList = Arrays.stream(skus.split(",")).toList();
+        for (int i = 0; i < skus.length(); i++) {
+            char c = skus.charAt(i);
 
-        if (skusList.isEmpty()) {
-            return -1;
-        }
-
-        for (String sku : skusList) {
-            if (sku.isBlank() || sku.length() != 1 || !Character.isLetter(sku.charAt(0))) {
+            if (c != 'A' && c != 'B' && c != 'C' && c != 'D')
                 return -1;
-            }
         }
+
+        Map<String, Long> skusInBasket = new HashMap<>();
+
+        for (int i = 0; i < skus.length(); i++) {
+            char c = skus.charAt(i);
+
+            skusInBasket.put(c, )
+        }
+
 
         Integer basketPrice = 0;
 
-        Map<String, Long> skusInBasket = skusList.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         for (String sku : skusInBasket.keySet()) {
             int quantity = skusInBasket.get(sku).intValue();
@@ -93,5 +95,3 @@ public class CheckoutSolution {
         return basketPrice;
     }
 }
-
-

@@ -17,20 +17,25 @@ class CheckoutSolutionTest {
         solution = new CheckoutSolution();
     }
 
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {",,,,", "AA,B,C,D", "1,A,B"})
-    void testValidatesInvalidInput(String input) {
-        Integer basketPrice = solution.checkout(input);
+    @Test
+    void testEmptyInput() {
+        Integer basketPrice = solution.checkout("");
+
+        assertEquals(0, basketPrice);
+    }
+
+    @Test
+    void testInvalidInput() {
+        Integer basketPrice = solution.checkout("a");
 
         assertEquals(-1, basketPrice);
     }
 
     @Test
     void testOnlyNormalPrices() {
-        Integer expectedPrice = 100 + 30 + 40 + 45;
+        Integer expectedPrice = 115;
 
-        Integer basketPrice = solution.checkout("A,A,B,C,C,D,D,D");
+        Integer basketPrice = solution.checkout("ABCD");
 
         assertEquals(expectedPrice, basketPrice);
     }
@@ -39,7 +44,7 @@ class CheckoutSolutionTest {
     void testOfferPrices() {
         Integer expectedPrice = 130 + 45;
 
-        Integer basketPrice = solution.checkout("A,A,A,B,B");
+        Integer basketPrice = solution.checkout("AAABB");
 
         assertEquals(expectedPrice, basketPrice);
     }
@@ -48,17 +53,9 @@ class CheckoutSolutionTest {
     void testAboveOfferPrices() {
         Integer expectedPrice = 130 + 45 + 50 + 30;
 
-        Integer basketPrice = solution.checkout("A,A,A,A,B,B,B");
+        Integer basketPrice = solution.checkout("AAAABBB");
 
         assertEquals(expectedPrice, basketPrice);
     }
 
-    @Test
-    void testIgnoresUnknownItems() {
-        Integer expectedPrice = 130 + 45 + 50 + 30;
-
-        Integer basketPrice = solution.checkout("A,A,A,A,B,B,B,a");
-
-        assertEquals(expectedPrice, basketPrice);
-    }
 }
