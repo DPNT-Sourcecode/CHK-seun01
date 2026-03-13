@@ -17,7 +17,7 @@ class HelloSolutionTest {
     @Test
     void testItReturnsHello() {
         String response = solution.hello("Jorge");
-        assertEquals("Hello, World!", response);
+        assertEquals("Hello, Jorge!", response);
     }
 
 }
