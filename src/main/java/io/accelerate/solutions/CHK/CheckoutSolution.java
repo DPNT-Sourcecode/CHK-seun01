@@ -73,14 +73,12 @@ public class CheckoutSolution {
         Map<String, Long> skusInBasket = new HashMap<>();
 
         for (int i = 0; i < skus.length(); i++) {
-            char c = skus.charAt(i);
+            String s = "" + skus.charAt(i);
 
-            skusInBasket.put(c, )
+            skusInBasket.put(s, skusInBasket.getOrDefault(s, 0L) + 1);
         }
 
-
         Integer basketPrice = 0;
-
 
         for (String sku : skusInBasket.keySet()) {
             int quantity = skusInBasket.get(sku).intValue();
@@ -95,3 +93,4 @@ public class CheckoutSolution {
         return basketPrice;
     }
 }
+
