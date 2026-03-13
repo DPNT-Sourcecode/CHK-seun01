@@ -40,12 +40,12 @@ class Item {
             return quantity * price;
         }
 
-        int quantityAboveOffer = quantity - specialOffer.quantity();
+        int offersQuantity = quantity / specialOffer.quantity();
+        int remaining = quantity - (offersQuantity * specialOffer.quantity());
 
-        return specialOffer.offerPrice() + (quantityAboveOffer * price);
+        return (specialOffer.offerPrice() * offersQuantity) + (remaining * price);
     }
 }
-
 
 public class CheckoutSolution {
 
@@ -93,4 +93,5 @@ public class CheckoutSolution {
         return basketPrice;
     }
 }
+
 
