@@ -1,13 +1,6 @@
 package io.accelerate.solutions.CHK;
 
-import io.accelerate.runner.SolutionNotImplementedException;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.*;
 
 
 record SpecialOffer(
@@ -19,16 +12,17 @@ record SpecialOffer(
 class Item {
 
     private final Integer price;
-    private final SpecialOffer specialOffer;
+    private final List<SpecialOffer> specialOffers;
 
-    public Item(Integer price, SpecialOffer specialOffer) {
+
+    public Item(Integer price, List<SpecialOffer> specialOffers) {
         this.price = price;
-        this.specialOffer = specialOffer;
+        this.specialOffers = specialOffers;
     }
 
     public Item(Integer price) {
         this.price = price;
-        this.specialOffer = null;
+        this.specialOffers = new ArrayList<>();
     }
 
     public Integer calculateFinalPrice(int quantity) {
@@ -36,60 +30,126 @@ class Item {
             return 0;
         }
 
-        if (specialOffer == null || quantity < specialOffer.quantity()) {
+        // If there is no special offers, or the quantity request is lower than the first special offer,
+        // use the regular price
+        if (specialOffers.isEmpty() || quantity < specialOffers.getFirst().quantity()) {
             return quantity * price;
         }
 
-        int offersQuantity = quantity / specialOffer.quantity();
-        int remaining = quantity - (offersQuantity * specialOffer.quantity());
+        // Otherwise, iterate special offers list to calculate the final price
+        // Starts from the end, to ensure that we give clients the best offer
 
-        return (specialOffer.offerPrice() * offersQuantity) + (remaining * price);
+        int finalPrice = 0;
+        int remaining = quantity;
+
+        int i = specialOffers.size() - 1;
+
+        while (remaining > 0 && i > 0) {
+            SpecialOffer specialOffer = specialOffers.get(i);
+
+            int offerUses = remaining / specialOffer.quantity();
+            remaining = remaining - (offerUses * specialOffer.quantity());
+
+            finalPrice += specialOffer.offerPrice() * offerUses;
+
+            i--;
+        }
+
+        return finalPrice;
+    }
+}
+
+class Store {
+    private static final List<String> VALID_SKUS = List.of("A", "B", "C", "D", "E");
+
+    private final Map<String, Item> priceTable = new HashMap<>();
+
+    public Store() {
+        priceTable.put("A", new Item(50, List.of(new SpecialOffer(3, 130), new SpecialOffer(5, 200))));
+        priceTable.put("B", new Item(30, List.of(new SpecialOffer(2, 45))));
+        priceTable.put("C", new Item(20));
+        priceTable.put("D", new Item(15));
+        priceTable.put("E", new Item(40));
+    }
+
+    public Integer calculateItemPrice(String sku, Integer quantity) {
+        Item item = priceTable.get(sku);
+
+        if (item == null) {
+            return 0;
+        }
+
+        return item.calculateFinalPrice(quantity);
+    }
+
+    public boolean isSKUValid(String sku) {
+        return VALID_SKUS.contains(sku);
+    }
+}
+
+class Basket {
+
+    private final Store store;
+    private final Map<String, Long> amountBySku;
+
+    public Basket(Store store, Map<String, Long> amountBySku) {
+        this.store = store;
+        this.amountBySku = amountBySku;
+    }
+
+    public Integer calculatePrice() {
+        Integer basketPrice = 0;
+
+        for (String sku : amountBySku.keySet()) {
+            int quantity = amountBySku.get(sku).intValue();
+
+            basketPrice += store.calculateItemPrice(sku, quantity);
+        }
+
+        return basketPrice;
     }
 }
 
 public class CheckoutSolution {
-
-    private final Map<String, Item> priceTable = new HashMap<>();
-
-    public CheckoutSolution() {
-        priceTable.put("A", new Item(50, new SpecialOffer(3, 130)));
-        priceTable.put("B", new Item(30, new SpecialOffer(2, 45)));
-        priceTable.put("C", new Item(20));
-        priceTable.put("D", new Item(15));
-    }
 
     public Integer checkout(String skus) {
         if (skus == null || skus.isBlank()) {
             return 0;
         }
 
-        for (int i = 0; i < skus.length(); i++) {
-            char c = skus.charAt(i);
+        Store store = new Store();
 
-            if (c != 'A' && c != 'B' && c != 'C' && c != 'D')
-                return -1;
+        try {
+            validateSkus(skus, store);
+
+            Map<String, Long> amountBySku = groupItemsBySku(skus);
+            Basket bascket = new Basket(store, amountBySku);
+
+            return bascket.calculatePrice();
+        } catch (IllegalArgumentException exception) {
+            return -1;
         }
+    }
 
-        Map<String, Long> skusInBasket = new HashMap<>();
-
+    private void validateSkus(String skus, Store store) {
         for (int i = 0; i < skus.length(); i++) {
-            String s = "" + skus.charAt(i);
+            String sku = "" + skus.charAt(i);
 
-            skusInBasket.put(s, skusInBasket.getOrDefault(s, 0L) + 1);
-        }
-
-        Integer basketPrice = 0;
-
-        for (String sku : skusInBasket.keySet()) {
-            int quantity = skusInBasket.get(sku).intValue();
-
-            Item item = priceTable.get(sku);
-
-            if (item != null) {
-                basketPrice += item.calculateFinalPrice(quantity);
+            if (!store.isSKUValid(sku)) {
+                throw new IllegalArgumentException();
             }
         }
+    }
 
-        return basketPrice;
+    private static Map<String, Long> groupItemsBySku(String skus) {
+        Map<String, Long> amountBySku = new HashMap<>();
+
+        for (int i = 0; i < skus.length(); i++) {
+            String sku = "" + skus.charAt(i);
+
+            amountBySku.put(sku, amountBySku.getOrDefault(sku, 0L) + 1);
+        }
+
+        return amountBySku;
     }
 }
