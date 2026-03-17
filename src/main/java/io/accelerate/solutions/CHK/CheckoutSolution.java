@@ -44,7 +44,7 @@ class Item {
 
         int i = specialOffers.size() - 1;
 
-        while (remaining > 0 && i > 0) {
+        while (remaining > 0 && i >= 0) {
             SpecialOffer specialOffer = specialOffers.get(i);
 
             int offerUses = remaining / specialOffer.quantity();
