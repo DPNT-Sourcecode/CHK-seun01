@@ -90,9 +90,9 @@ class Store {
 class Basket {
 
     private final Store store;
-    private final Map<String, Long> amountBySku;
+    private final Map<String, Integer> amountBySku;
 
-    public Basket(Store store, Map<String, Long> amountBySku) {
+    public Basket(Store store, Map<String, Integer> amountBySku) {
         this.store = store;
         this.amountBySku = amountBySku;
     }
@@ -101,7 +101,7 @@ class Basket {
         Integer basketPrice = 0;
 
         for (String sku : amountBySku.keySet()) {
-            int quantity = amountBySku.get(sku).intValue();
+            int quantity = amountBySku.get(sku);
 
             basketPrice += store.calculateItemPrice(sku, quantity);
         }
@@ -112,9 +112,11 @@ class Basket {
     }
 
     private Integer calculateDiscounts() {
-        Long itemEQuantity = amountBySku.getOrDefault("E", 0L);
+        int itemEQuantity = amountBySku.getOrDefault("E", 0);
 
-        int total
+        int totalDiscount = (itemEQuantity / 2) * store.calculateItemPrice("B", 1);
+
+        return totalDiscount;
     }
 }
 
@@ -130,7 +132,7 @@ public class CheckoutSolution {
         try {
             validateSkus(skus, store);
 
-            Map<String, Long> amountBySku = groupItemsBySku(skus);
+            Map<String, Integer> amountBySku = groupItemsBySku(skus);
             Basket bascket = new Basket(store, amountBySku);
 
             return bascket.calculatePrice();
@@ -149,17 +151,18 @@ public class CheckoutSolution {
         }
     }
 
-    private static Map<String, Long> groupItemsBySku(String skus) {
-        Map<String, Long> amountBySku = new HashMap<>();
+    private static Map<String, Integer> groupItemsBySku(String skus) {
+        Map<String, Integer> amountBySku = new HashMap<>();
 
         for (int i = 0; i < skus.length(); i++) {
             String sku = "" + skus.charAt(i);
 
-            amountBySku.put(sku, amountBySku.getOrDefault(sku, 0L) + 1);
+            amountBySku.put(sku, amountBySku.getOrDefault(sku, 0) + 1);
         }
 
         return amountBySku;
     }
 }
+
 
 
