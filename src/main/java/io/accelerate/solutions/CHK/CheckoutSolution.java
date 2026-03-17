@@ -55,7 +55,7 @@ class Item {
             i--;
         }
 
-        return finalPrice;
+        return finalPrice + (remaining * price);
     }
 }
 
@@ -153,3 +153,4 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
