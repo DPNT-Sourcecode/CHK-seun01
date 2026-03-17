@@ -106,7 +106,15 @@ class Basket {
             basketPrice += store.calculateItemPrice(sku, quantity);
         }
 
+        basketPrice -= calculateDiscounts();
+
         return basketPrice;
+    }
+
+    private Integer calculateDiscounts() {
+        Long itemEQuantity = amountBySku.getOrDefault("E", 0L);
+
+        int total
     }
 }
 
@@ -153,4 +161,5 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
