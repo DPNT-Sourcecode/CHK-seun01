@@ -113,8 +113,14 @@ class Basket {
 
     private Integer calculateDiscounts() {
         int itemEQuantity = amountBySku.getOrDefault("E", 0);
+        int itemEDiscountQuantity = itemEQuantity / 2;
+        int itemBQuantity = amountBySku.getOrDefault("B", 0);
 
-        int totalDiscount = (itemEQuantity / 2) * store.calculateItemPrice("B", 1);
+        int totalDiscount = 0;
+
+        if (itemEDiscountQuantity <= itemBQuantity) {
+            totalDiscount -= store.calculateItemPrice("B",  itemEDiscountQuantity);
+        }
 
         return totalDiscount;
     }
@@ -163,6 +169,7 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
 
 
