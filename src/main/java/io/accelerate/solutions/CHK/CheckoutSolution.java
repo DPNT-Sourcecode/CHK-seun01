@@ -119,7 +119,7 @@ class Basket {
         int totalDiscount = 0;
 
         if (itemEDiscountQuantity <= itemBQuantity) {
-            totalDiscount -= store.calculateItemPrice("B",  itemEDiscountQuantity);
+            totalDiscount = store.calculateItemPrice("B",  itemEDiscountQuantity);
         }
 
         return totalDiscount;
@@ -169,7 +169,3 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
-
-
-
-
