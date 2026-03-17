@@ -93,5 +93,3 @@ public class CheckoutSolution {
         return basketPrice;
     }
 }
-
-
