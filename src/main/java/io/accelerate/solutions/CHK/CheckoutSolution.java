@@ -1,6 +1,9 @@
 package io.accelerate.solutions.CHK;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 record SpecialOffer(
@@ -98,6 +101,8 @@ class Basket {
     }
 
     public Integer calculatePrice() {
+        applyBonus();
+
         Integer basketPrice = 0;
 
         for (String sku : amountBySku.keySet()) {
@@ -106,23 +111,17 @@ class Basket {
             basketPrice += store.calculateItemPrice(sku, quantity);
         }
 
-        basketPrice -= calculateDiscounts();
-
         return basketPrice;
     }
 
-    private Integer calculateDiscounts() {
+    private void applyBonus() {
         int itemEQuantity = amountBySku.getOrDefault("E", 0);
-        int itemEDiscountQuantity = itemEQuantity / 2;
-        int itemBQuantity = amountBySku.getOrDefault("B", 0);
+        int itemBBonus = itemEQuantity / 2;
+        int currentItemBQuantity = amountBySku.getOrDefault("B", 0);
 
-        int totalDiscount = 0;
+        int billedItemBQuantity = Math.max(0, currentItemBQuantity - itemBBonus);
 
-        if (itemEDiscountQuantity <= itemBQuantity) {
-            totalDiscount = store.calculateItemPrice("B",  itemEDiscountQuantity);
-        }
-
-        return totalDiscount;
+        amountBySku.put("B", billedItemBQuantity);
     }
 }
 
@@ -169,3 +168,4 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
