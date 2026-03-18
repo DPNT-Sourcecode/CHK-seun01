@@ -2,6 +2,7 @@ package io.accelerate.solutions.CHK;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CheckoutSolutionTest {
@@ -138,9 +139,14 @@ class CheckoutSolutionTest {
 
     @Test
     void testAboveOfferPrices11() {
-        Integer expectedPrice = 265;
+        Integer expectedPrice = 280;
 
         Integer basketPrice = solution.checkout("CCADDEEBBA");
+        // 2 x c = 40
+        // 2 x a = 100
+        // 2 x b = 45
+        // 2 x d = 30
+        // 2 x e = 80 - 30 = 50
 
         assertEquals(expectedPrice, basketPrice);
     }
