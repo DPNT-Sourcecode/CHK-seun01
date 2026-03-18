@@ -142,6 +142,7 @@ class Basket {
         applyItemBonus("N", "M", 3);
         applyItemBonus("R", "Q", 3);
         applyItemBonus("U", "U", 4);
+        applyGroupBonus();
     }
 
     private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
@@ -152,6 +153,23 @@ class Basket {
         int billedItemBQuantity = Math.max(0, currentTargetQuantity - targetBonus);
 
         amountBySku.put(targetItem, billedItemBQuantity);
+    }
+
+    private void applyGroupBonus() {
+        int s = amountBySku.get("S"); // 20
+        int t = amountBySku.get("T"); // 20
+        int x = amountBySku.get("X"); // 17
+        int y = amountBySku.get("Y"); // 20
+        int z = amountBySku.get("Z"); // 21
+
+        // Z: 4 = 21 * 4 = 84
+        // Y: 3 = 20 * 3 = 60
+        // preço original: 144
+
+        // porém, posso deixar de pagar 3xZ, e pagar 45 no lugar. 84-63+45 =
+        //
+
+
     }
 }
 
@@ -198,5 +216,6 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
 
