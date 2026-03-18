@@ -123,7 +123,13 @@ class Basket {
     }
 
     public Integer calculatePrice() {
-        applyBonuses();
+        applyItemBonus("E", "B", 2);
+        applyItemBonus("F", "F", 3);
+        applyItemBonus("N", "M", 3);
+        applyItemBonus("R", "Q", 3);
+        applyItemBonus("U", "U", 4);
+
+        int groupBonusCost = applyGroupBonus();
 
         Integer basketPrice = 0;
 
@@ -133,16 +139,7 @@ class Basket {
             basketPrice += store.calculateItemPrice(sku, quantity);
         }
 
-        return basketPrice;
-    }
-
-    private void applyBonuses() {
-        applyItemBonus("E", "B", 2);
-        applyItemBonus("F", "F", 3);
-        applyItemBonus("N", "M", 3);
-        applyItemBonus("R", "Q", 3);
-        applyItemBonus("U", "U", 4);
-        applyGroupBonus();
+        return basketPrice + groupBonusCost;
     }
 
     private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
@@ -155,36 +152,37 @@ class Basket {
         amountBySku.put(targetItem, billedItemBQuantity);
     }
 
-    private void applyGroupBonus() {
-        List<Integer> possiblePromotionalItemsPrices = new ArrayList<>();
+    private int applyGroupBonus() {
+        int groupBonusCost = 0;
+
+        List<String> possiblePromotionalItems = new ArrayList<>();
 
         for (String sku : List.of("Z", "S", "T", "Y", "X")) {
-            int quantity = amountBySku.get(sku);
+            int quantity = amountBySku.getOrDefault(sku, 0);
 
             for (int i = 0; i < quantity; i++)
-                possiblePromotionalItemsPrices.add(store.calculateItemPrice(sku, quantity));
+                possiblePromotionalItems.add(sku);
         }
 
-        List<List<Integer>> groups = new ArrayList<>();
+        List<List<String>> groups = new ArrayList<>();
 
+        int groupSize = 3;
 
-        for (int i = 0; i < possiblePromotionalItemsPrices.size(); i += 3) {
-            // Math.min... size will be smaller than i + maxSize for the last batch (unless perfectly divisible),
-            // including the first batch if size is smaller than max size
-            sublists.add(new ArrayList<>(inputList.subList(i, Math.min(possiblePromotionalItemsPrices.size(), i + 3))));
+        for (int i = 0; i < possiblePromotionalItems.size(); i += groupSize) {
+            groups.add(new ArrayList<>(possiblePromotionalItems.subList(i, Math.min(possiblePromotionalItems.size(), i + groupSize))));
         }
 
+        for (List<String> group : groups) {
+            if (group.size() == groupSize) {
+                for (String sku : group) {
+                    amountBySku.put(sku, amountBySku.get(sku) - 1);
+                }
 
+                groupBonusCost += 45;
+            }
+        }
 
-        // Z: 4 = 21 * 4 = 84 -- depois, sobra 1 Z
-        // Y: 3 = 20 * 3 = 60
-        // preço original: 144
-
-        // porém, posso deixar de pagar 3xZ, e pagar 45 no lugar. 84-63+45 = 66
-        // além, posso deixar de pagar 1xZ + 2Y, e pagar 45 no lugar. 60 - 21 - 40 + 45 = 44
-        // final: 66+44 = 110
-
-
+        return groupBonusCost;
     }
 }
 
