@@ -140,7 +140,7 @@ class Basket {
         applyItemBonus("E", "B", 2);
         applyItemBonus("F", "F", 3);
         applyItemBonus("N", "M", 4);
-        applyItemBonus("R", "Q", 4);
+        applyItemBonus("R", "Q", 3);
         applyItemBonus("U", "U", 4);
     }
 
@@ -198,8 +198,3 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
-
-
-
-
-
