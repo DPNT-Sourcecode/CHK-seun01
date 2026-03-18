@@ -162,12 +162,13 @@ class Basket {
         int y = amountBySku.get("Y"); // 20
         int z = amountBySku.get("Z"); // 21
 
-        // Z: 4 = 21 * 4 = 84
+        // Z: 4 = 21 * 4 = 84 -- depois, sobra 1 Z
         // Y: 3 = 20 * 3 = 60
         // preço original: 144
 
-        // porém, posso deixar de pagar 3xZ, e pagar 45 no lugar. 84-63+45 =
-        //
+        // porém, posso deixar de pagar 3xZ, e pagar 45 no lugar. 84-63+45 = 66
+        // além, posso deixar de pagar 1xZ + 2Y, e pagar 45 no lugar. 60 - 21 - 40 + 45 = 44
+        // final: 66+44 = 110
 
 
     }
@@ -216,6 +217,7 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
 
 
