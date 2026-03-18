@@ -79,7 +79,7 @@ class Store {
         priceTable.put("H", new Item(10, List.of(new SpecialOffer(5, 45), new SpecialOffer(10, 80))));
         priceTable.put("I", new Item(35));
         priceTable.put("J", new Item(60));
-        priceTable.put("K", new Item(80, List.of(new SpecialOffer(2, 150))));
+        priceTable.put("K", new Item(70, List.of(new SpecialOffer(2, 120))));
         priceTable.put("L", new Item(90));
         priceTable.put("M", new Item(15));
         priceTable.put("N", new Item(40));
@@ -87,14 +87,14 @@ class Store {
         priceTable.put("P", new Item(50, List.of(new SpecialOffer(5, 200))));
         priceTable.put("Q", new Item(30, List.of(new SpecialOffer(3, 80))));
         priceTable.put("R", new Item(50));
-        priceTable.put("S", new Item(30));
+        priceTable.put("S", new Item(20));
         priceTable.put("T", new Item(20));
         priceTable.put("U", new Item(40));
         priceTable.put("V", new Item(50, List.of(new SpecialOffer(2, 90), new SpecialOffer(3, 130))));
         priceTable.put("W", new Item(20));
-        priceTable.put("X", new Item(90));
-        priceTable.put("Y", new Item(10));
-        priceTable.put("Z", new Item(50));
+        priceTable.put("X", new Item(17));
+        priceTable.put("Y", new Item(20));
+        priceTable.put("Z", new Item(21));
     }
 
     public Integer calculateItemPrice(String sku, Integer quantity) {
@@ -198,4 +198,5 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
