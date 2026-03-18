@@ -146,9 +146,10 @@ class CheckoutSolutionTest {
         // 2 x a = 100
         // 2 x b = 45
         // 2 x d = 30
-        // 2 x e = 80 - 30 = 50
+        // 2 x e = 80 - 45 + 30 = 65
 
         assertEquals(expectedPrice, basketPrice);
     }
 
 }
+
