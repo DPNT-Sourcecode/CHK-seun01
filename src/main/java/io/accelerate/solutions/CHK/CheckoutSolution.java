@@ -63,38 +63,8 @@ class Item {
 }
 
 class Store {
-    private static final List<String> VALID_SKUS = List.of("A", "B", "C", "D", "E", "F");
-
-    +------+-------+------------------------+
-            | Item | Price | Special offers         |
-            +------+-------+------------------------+
-            | A    | 50    | 3A for 130, 5A for 200 |
-            | B    | 30    | 2B for 45              |
-            | C    | 20    |                        |
-            | D    | 15    |                        |
-            | E    | 40    | 2E get one B free      |
-            | F    | 10    | 2F get one F free      |
-            | G    | 20    |                        |
-            | H    | 10    | 5H for 45, 10H for 80  |
-            | I    | 35    |                        |
-            | J    | 60    |                        |
-            | K    | 80    | 2K for 150             |
-            | L    | 90    |                        |
-            | M    | 15    |                        |
-            | N    | 40    | 3N get one M free      |
-            | O    | 10    |                        |
-            | P    | 50    | 5P for 200             |
-            | Q    | 30    | 3Q for 80              |
-            | R    | 50    | 3R get one Q free      |
-            | S    | 30    |                        |
-            | T    | 20    |                        |
-            | U    | 40    | 3U get one U free      |
-            | V    | 50    | 2V for 90, 3V for 130  |
-            | W    | 20    |                        |
-            | X    | 90    |                        |
-            | Y    | 10    |                        |
-            | Z    | 50    |                        |
-            +------+-------+------------------------+
+    private static final List<String> VALID_SKUS = List.of("A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
     private final Map<String, Item> priceTable = new HashMap<>();
 
@@ -105,6 +75,26 @@ class Store {
         priceTable.put("D", new Item(15));
         priceTable.put("E", new Item(40));
         priceTable.put("F", new Item(10));
+        priceTable.put("G", new Item(20));
+        priceTable.put("H", new Item(10));
+        priceTable.put("I", new Item(35));
+        priceTable.put("J", new Item(60));
+        priceTable.put("K", new Item(80));
+        priceTable.put("L", new Item(90));
+        priceTable.put("M", new Item(15));
+        priceTable.put("N", new Item(40));
+        priceTable.put("O", new Item(10));
+        priceTable.put("P", new Item(50));
+        priceTable.put("Q", new Item(30));
+        priceTable.put("R", new Item(50));
+        priceTable.put("S", new Item(30));
+        priceTable.put("T", new Item(20));
+        priceTable.put("U", new Item(40));
+        priceTable.put("V", new Item(50));
+        priceTable.put("W", new Item(20));
+        priceTable.put("X", new Item(90));
+        priceTable.put("Y", new Item(10));
+        priceTable.put("Z", new Item(50));
     }
 
     public Integer calculateItemPrice(String sku, Integer quantity) {
@@ -147,30 +137,19 @@ class Basket {
     }
 
     private void applyBonuses() {
-        applyItemEBonus();
-        applyItemFBonus();
+        applyItemBonus("E", "B", 2);
+        applyItemBonus("F", "F", 3);
     }
 
-    private void applyItemEBonus() {
-        int itemEQuantity = amountBySku.getOrDefault("E", 0);
-        int itemBBonus = itemEQuantity / 2;
-        int currentItemBQuantity = amountBySku.getOrDefault("B", 0);
+    private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
+        int sourceQuantity = amountBySku.getOrDefault(sourceItem, 0);
+        int targetBonus = sourceQuantity / quantity;
+        int currentTargetQuantity = amountBySku.getOrDefault(targetItem, 0);
 
-        int billedItemBQuantity = Math.max(0, currentItemBQuantity - itemBBonus);
+        int billedItemBQuantity = Math.max(0, currentTargetQuantity - targetBonus);
 
-        amountBySku.put("B", billedItemBQuantity);
+        amountBySku.put(targetItem, billedItemBQuantity);
     }
-
-    private void applyItemFBonus() {
-        int itemFQuantity = amountBySku.getOrDefault("F", 0);
-        int itemFBonus = itemFQuantity / 3;
-        int currentItemFQuantity = amountBySku.getOrDefault("F", 0);
-
-        int billedItemBQuantity = Math.max(0, currentItemFQuantity - itemFBonus);
-
-        amountBySku.put("F", billedItemBQuantity);
-    }
-
 }
 
 public class CheckoutSolution {
@@ -216,5 +195,6 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
 
