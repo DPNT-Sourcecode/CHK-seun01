@@ -165,7 +165,16 @@ class Basket {
                 possiblePromotionalItemsPrices.add(store.calculateItemPrice(sku, quantity));
         }
 
-        
+        List<List<Integer>> groups = new ArrayList<>();
+
+
+        for (int i = 0; i < possiblePromotionalItemsPrices.size(); i += 3) {
+            // Math.min... size will be smaller than i + maxSize for the last batch (unless perfectly divisible),
+            // including the first batch if size is smaller than max size
+            sublists.add(new ArrayList<>(inputList.subList(i, Math.min(possiblePromotionalItemsPrices.size(), i + 3))));
+        }
+
+
 
         // Z: 4 = 21 * 4 = 84 -- depois, sobra 1 Z
         // Y: 3 = 20 * 3 = 60
@@ -222,3 +231,4 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
