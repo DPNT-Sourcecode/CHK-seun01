@@ -139,9 +139,9 @@ class Basket {
     private void applyBonuses() {
         applyItemBonus("E", "B", 2);
         applyItemBonus("F", "F", 3);
-        applyItemBonus("N", "M", 4);
-        applyItemBonus("R", "Q", 3);
-        applyItemBonus("U", "U", 4);
+        applyItemBonus("N", "M", 3);
+        applyItemBonus("R", "Q", 3); // must be 3
+        applyItemBonus("U", "U", 3);
     }
 
     private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
@@ -198,3 +198,4 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
