@@ -132,7 +132,7 @@ class Basket {
 
     private void applyItemFBonus() {
         int itemFQuantity = amountBySku.getOrDefault("F", 0);
-        int itemFBonus = itemFQuantity / 2;
+        int itemFBonus = itemFQuantity / 3;
         int currentItemFQuantity = amountBySku.getOrDefault("F", 0);
 
         int billedItemBQuantity = Math.max(0, currentItemFQuantity - itemFBonus);
@@ -185,3 +185,4 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
