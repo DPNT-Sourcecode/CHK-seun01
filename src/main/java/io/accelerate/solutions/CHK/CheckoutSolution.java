@@ -76,10 +76,10 @@ class Store {
         priceTable.put("E", new Item(40));
         priceTable.put("F", new Item(10));
         priceTable.put("G", new Item(20));
-        priceTable.put("H", new Item(10));
+        priceTable.put("H", new Item(10, List.of(new SpecialOffer(5, 45), new SpecialOffer(10, 80))));
         priceTable.put("I", new Item(35));
         priceTable.put("J", new Item(60));
-        priceTable.put("K", new Item(80));
+        priceTable.put("K", new Item(80, List.of(new SpecialOffer(2, 150))));
         priceTable.put("L", new Item(90));
         priceTable.put("M", new Item(15));
         priceTable.put("N", new Item(40));
@@ -138,7 +138,10 @@ class Basket {
 
     private void applyBonuses() {
         applyItemBonus("E", "B", 2);
-        applyItemBonus("F", "F", 3);
+        applyItemBonus("F", "F", 2);
+        applyItemBonus("N", "M", 3);
+        applyItemBonus("R", "Q", 3);
+        applyItemBonus("U", "U", 3);
     }
 
     private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
@@ -195,6 +198,7 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
+
 
 
 
