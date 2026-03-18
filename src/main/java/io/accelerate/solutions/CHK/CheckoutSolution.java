@@ -140,8 +140,8 @@ class Basket {
         applyItemBonus("E", "B", 2);
         applyItemBonus("F", "F", 3);
         applyItemBonus("N", "M", 3);
-        applyItemBonus("R", "Q", 3); // must be 3
-        applyItemBonus("U", "U", 3);
+        applyItemBonus("R", "Q", 3);
+        applyItemBonus("U", "U", 4);
     }
 
     private void applyItemBonus(String sourceItem, String targetItem, int quantity) {
