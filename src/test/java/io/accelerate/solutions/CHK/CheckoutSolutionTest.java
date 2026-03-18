@@ -142,14 +142,26 @@ class CheckoutSolutionTest {
         Integer expectedPrice = 280;
 
         Integer basketPrice = solution.checkout("CCADDEEBBA");
-        // 2 x c = 40
-        // 2 x a = 100
-        // 2 x b = 45
-        // 2 x d = 30
-        // 2 x e = 80 - 45 + 30 = 65
+
+        assertEquals(expectedPrice, basketPrice);
+    }
+
+    @Test
+    void testAboveOfferPrices12() {
+        Integer expectedPrice = 10;
+
+        Integer basketPrice = solution.checkout("F");
+
+        assertEquals(expectedPrice, basketPrice);
+    }
+
+    @Test
+    void testAboveOfferPrices13() {
+        Integer expectedPrice = 20;
+
+        Integer basketPrice = solution.checkout("FF");
 
         assertEquals(expectedPrice, basketPrice);
     }
 
 }
-

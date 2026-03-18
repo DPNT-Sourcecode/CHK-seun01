@@ -63,7 +63,7 @@ class Item {
 }
 
 class Store {
-    private static final List<String> VALID_SKUS = List.of("A", "B", "C", "D", "E");
+    private static final List<String> VALID_SKUS = List.of("A", "B", "C", "D", "E", "F");
 
     private final Map<String, Item> priceTable = new HashMap<>();
 
@@ -73,6 +73,7 @@ class Store {
         priceTable.put("C", new Item(20));
         priceTable.put("D", new Item(15));
         priceTable.put("E", new Item(40));
+        priceTable.put("F", new Item(10));
     }
 
     public Integer calculateItemPrice(String sku, Integer quantity) {
@@ -101,7 +102,7 @@ class Basket {
     }
 
     public Integer calculatePrice() {
-        applyBonus();
+        applyBonuses();
 
         Integer basketPrice = 0;
 
@@ -114,7 +115,11 @@ class Basket {
         return basketPrice;
     }
 
-    private void applyBonus() {
+    private void applyBonuses() {
+        applyItemEBonus();
+    }
+
+    private void applyItemEBonus() {
         int itemEQuantity = amountBySku.getOrDefault("E", 0);
         int itemBBonus = itemEQuantity / 2;
         int currentItemBQuantity = amountBySku.getOrDefault("B", 0);
@@ -168,4 +173,3 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
-
