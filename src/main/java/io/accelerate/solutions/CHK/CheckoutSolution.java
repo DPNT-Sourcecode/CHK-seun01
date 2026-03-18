@@ -156,11 +156,16 @@ class Basket {
     }
 
     private void applyGroupBonus() {
-        int s = amountBySku.get("S"); // 20
-        int t = amountBySku.get("T"); // 20
-        int x = amountBySku.get("X"); // 17
-        int y = amountBySku.get("Y"); // 20
-        int z = amountBySku.get("Z"); // 21
+        List<Integer> possiblePromotionalItemsPrices = new ArrayList<>();
+
+        for (String sku : List.of("Z", "S", "T", "Y", "X")) {
+            int quantity = amountBySku.get(sku);
+
+            for (int i = 0; i < quantity; i++)
+                possiblePromotionalItemsPrices.add(store.calculateItemPrice(sku, quantity));
+        }
+
+        
 
         // Z: 4 = 21 * 4 = 84 -- depois, sobra 1 Z
         // Y: 3 = 20 * 3 = 60
@@ -217,7 +222,3 @@ public class CheckoutSolution {
         return amountBySku;
     }
 }
-
-
-
-
